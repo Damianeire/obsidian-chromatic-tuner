@@ -1,0 +1,253 @@
+.ct-view {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-4);
+	padding: var(--size-4-4);
+}
+
+/* --- Pickers --- */
+.ct-controls {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-2);
+}
+
+.ct-field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-1);
+}
+
+.ct-field-label {
+	font-size: var(--font-ui-smaller);
+	color: var(--text-muted);
+}
+
+.ct-field select {
+	width: 100%;
+}
+
+.ct-field-hint {
+	font-size: var(--font-ui-smaller);
+	color: var(--text-faint);
+}
+
+.ct-field-hint:empty {
+	display: none;
+}
+
+/* --- Reading --- */
+.ct-display {
+	--ct-state-color: var(--text-normal);
+	text-align: center;
+	padding: var(--size-4-2) 0;
+	transition: opacity 0.3s;
+}
+
+.ct-display.is-stale {
+	opacity: 0.55;
+}
+
+.ct-display.is-in-tune {
+	--ct-state-color: var(--color-green);
+}
+
+.ct-display.is-close {
+	--ct-state-color: var(--color-yellow);
+}
+
+.ct-display.is-off {
+	--ct-state-color: var(--color-red);
+}
+
+.ct-note-row {
+	display: flex;
+	justify-content: center;
+	align-items: baseline;
+	line-height: 1;
+}
+
+.ct-note {
+	font-size: 4.5em;
+	font-weight: 700;
+	color: var(--ct-state-color);
+}
+
+.ct-display.is-idle .ct-note {
+	color: var(--text-faint);
+}
+
+.ct-octave {
+	min-width: 1ch;
+	margin-left: 2px;
+	font-size: 1.5em;
+	color: var(--text-muted);
+}
+
+.ct-cents {
+	min-height: 1.5em;
+	margin-top: var(--size-4-2);
+	font-size: var(--font-ui-medium);
+	font-variant-numeric: tabular-nums;
+	color: var(--ct-state-color);
+}
+
+/* One percent of the meter's width per cent, from -50 at the left edge to +50 at the right. */
+.ct-meter {
+	position: relative;
+	height: 44px;
+	margin: var(--size-4-2) var(--size-4-2) 0;
+}
+
+.ct-meter-zone {
+	position: absolute;
+	top: 8px;
+	bottom: 0;
+	left: calc(50% - var(--ct-tolerance, 5) * 1%);
+	width: calc(var(--ct-tolerance, 5) * 2%);
+	border-radius: var(--radius-s);
+	background: rgba(var(--color-green-rgb), 0.18);
+}
+
+.ct-tick {
+	position: absolute;
+	bottom: 0;
+	left: var(--ct-pos);
+	width: 1px;
+	height: 10px;
+	transform: translateX(-50%);
+	background: var(--background-modifier-border);
+}
+
+.ct-tick.is-major {
+	height: 18px;
+	background: var(--text-faint);
+}
+
+.ct-tick.is-center {
+	width: 2px;
+	height: 26px;
+	background: var(--text-muted);
+}
+
+.ct-needle {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: calc(50% + var(--ct-cents, 0) * 1%);
+	width: 3px;
+	border-radius: 2px;
+	transform: translateX(-50%);
+	background: var(--ct-state-color);
+	transition: opacity 0.2s;
+}
+
+.ct-display.is-idle .ct-needle {
+	opacity: 0;
+}
+
+.ct-meter-labels {
+	display: flex;
+	justify-content: space-between;
+	margin: 2px var(--size-4-2) 0;
+	font-size: var(--font-ui-smaller);
+	color: var(--text-faint);
+}
+
+.ct-frequency {
+	min-height: 1.5em;
+	margin-top: var(--size-4-3);
+	font-size: var(--font-ui-small);
+	font-variant-numeric: tabular-nums;
+	color: var(--text-muted);
+}
+
+/* --- Strings --- */
+.ct-strings {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--size-4-2);
+}
+
+.ct-view .ct-string {
+	min-width: 44px;
+	font-weight: 600;
+}
+
+.ct-string sub {
+	font-size: 0.7em;
+	font-weight: 400;
+	color: var(--text-muted);
+}
+
+.ct-view .ct-string.is-active {
+	background: var(--interactive-accent);
+	color: var(--text-on-accent);
+}
+
+.ct-string.is-active sub {
+	color: inherit;
+}
+
+.ct-view .ct-string.is-locked {
+	box-shadow: 0 0 0 2px var(--interactive-accent);
+}
+
+.ct-hint {
+	text-align: center;
+	font-size: var(--font-ui-smaller);
+	color: var(--text-faint);
+}
+
+.ct-hint:empty {
+	display: none;
+}
+
+/* --- Input level and start/stop --- */
+.ct-footer {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-3);
+}
+
+.ct-level {
+	position: relative;
+	flex: 1;
+	height: 6px;
+	overflow: hidden;
+	border-radius: 3px;
+	background: var(--background-modifier-border);
+}
+
+.ct-level-fill {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: var(--ct-level, 0%);
+	background: var(--interactive-accent);
+	transition: width 80ms linear;
+}
+
+.ct-level-fill.is-gated {
+	background: var(--text-faint);
+}
+
+.ct-level-gate {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: var(--ct-gate);
+	width: 2px;
+	background: var(--text-muted);
+}
+
+.ct-status {
+	font-size: var(--font-ui-small);
+	color: var(--text-error);
+}
+
+.ct-status:empty {
+	display: none;
+}

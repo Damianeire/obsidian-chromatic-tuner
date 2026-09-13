@@ -1,0 +1,10 @@
+{
+	"id": "chromatic-tuner",
+	"name": "Chromatic Tuner",
+	"version": "0.1.0",
+	"minAppVersion": "1.5.0",
+	"description": "A chromatic and instrument tuner (guitar, bass, tenor banjo, mandolin, violin, cello) with microphone input selection.",
+	"author": "Damian Evans",
+	"authorUrl": "",
+	"isDesktopOnly": false
+}
