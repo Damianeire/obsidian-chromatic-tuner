@@ -1,6 +1,6 @@
 {
 	"name": "chromatic-tuner",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "A chromatic and instrument tuner (guitar, bass, tenor banjo, mandolin, violin, cello) with microphone input selection.",
 	"main": "main.js",
 	"scripts": {

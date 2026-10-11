@@ -26,6 +26,10 @@ The tuner turns off the browser's own echo cancellation, noise suppression and a
 
 If input names show as "Microphone 1, 2…", start the tuner once: names are only available after microphone access is granted. On macOS, Obsidian needs permission under **System Settings → Privacy & Security → Microphone**.
 
+## Privacy
+
+All audio is processed locally on your device. Nothing is recorded, stored or sent anywhere: the tuner only analyses the live microphone signal while it's running, and releases the microphone when you press **Stop** or close the panel.
+
 ## Development
 
 ```bash
@@ -37,3 +41,11 @@ npm run build   # type-check and production build
 To install manually, copy `main.js`, `manifest.json` and `styles.css` into `<vault>/.obsidian/plugins/chromatic-tuner/`, then enable **Chromatic Tuner** under Settings → Community plugins.
 
 Pitch detection uses the McLeod Pitch Method (normalised square difference function computed with an FFT-based autocorrelation) in [src/pitch.ts](src/pitch.ts).
+
+## Credits
+
+Created by Damian Evans with Claude Opus 5.5 (Anthropic).
+
+## License
+
+[MIT](LICENSE)
