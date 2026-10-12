@@ -38,7 +38,7 @@ function formatCents(cents: number): string {
 }
 
 function errorName(err: unknown): string {
-	return typeof err === "object" && err !== null && "name" in err ? String((err as { name: unknown }).name) : "";
+	return typeof err === "object" && err !== null && "name" in err ? String(err.name) : "";
 }
 
 function describeMicError(err: unknown): string {
@@ -267,7 +267,7 @@ export class TunerView extends ItemView {
 			const tick = this.meterEl.createDiv({ cls: "ct-tick" });
 			if (cents === 0) tick.addClass("is-center");
 			else if (cents % 50 === 0) tick.addClass("is-major");
-			tick.style.setProperty("--ct-pos", `${cents + 50}%`);
+			tick.setCssProps({ "--ct-pos": `${cents + 50}%` });
 		});
 		this.meterEl.createDiv({ cls: "ct-needle" });
 
@@ -289,26 +289,34 @@ export class TunerView extends ItemView {
 		this.statusEl = root.createDiv({ cls: "ct-status" });
 
 		// --- Wire events ---
-		this.instrumentSelect.addEventListener("change", async () => {
-			this.plugin.settings.instrumentId = this.instrumentSelect.value;
-			this.lockedString = null;
-			this.applyInstrument();
-			await this.plugin.saveSettings();
+		this.instrumentSelect.addEventListener("change", () => {
+			void this.onInstrumentChange();
 		});
 
-		this.deviceSelect.addEventListener("change", async () => {
-			this.plugin.settings.deviceId = this.deviceSelect.value;
-			await this.plugin.saveSettings();
-			if (this.stream || this.starting) {
-				this.stop();
-				await this.start();
-			}
+		this.deviceSelect.addEventListener("change", () => {
+			void this.onDeviceChange();
 		});
 
 		this.toggleButton.addEventListener("click", () => {
 			if (this.stream) this.stop();
 			else void this.start();
 		});
+	}
+
+	private async onInstrumentChange() {
+		this.plugin.settings.instrumentId = this.instrumentSelect.value;
+		this.lockedString = null;
+		this.applyInstrument();
+		await this.plugin.saveSettings();
+	}
+
+	private async onDeviceChange() {
+		this.plugin.settings.deviceId = this.deviceSelect.value;
+		await this.plugin.saveSettings();
+		if (this.stream || this.starting) {
+			this.stop();
+			await this.start();
+		}
 	}
 
 	private applyInstrument() {
@@ -422,8 +430,10 @@ export class TunerView extends ItemView {
 		}
 		this.frequencyEl.setText(frequencyText);
 
-		this.meterEl.style.setProperty("--ct-cents", String(Math.max(-50, Math.min(50, shown))));
-		this.meterEl.style.setProperty("--ct-tolerance", String(settings.inTuneCents));
+		this.meterEl.setCssProps({
+			"--ct-cents": String(Math.max(-50, Math.min(50, shown))),
+			"--ct-tolerance": String(settings.inTuneCents),
+		});
 		this.displayEl.removeClass("is-idle");
 		this.displayEl.toggleClass("is-stale", stale);
 		this.displayEl.toggleClass("is-in-tune", distance <= settings.inTuneCents);
@@ -444,8 +454,10 @@ export class TunerView extends ItemView {
 		this.octaveEl.setText("");
 		this.centsEl.setText("");
 		this.frequencyEl.setText(this.stream ? "Listening…" : this.starting ? "" : "Press Start to tune");
-		this.meterEl.style.setProperty("--ct-cents", "0");
-		this.meterEl.style.setProperty("--ct-tolerance", String(this.plugin.settings.inTuneCents));
+		this.meterEl.setCssProps({
+			"--ct-cents": "0",
+			"--ct-tolerance": String(this.plugin.settings.inTuneCents),
+		});
 		this.updateStringButtons(null);
 	}
 
@@ -481,9 +493,9 @@ export class TunerView extends ItemView {
 		const gate = this.plugin.settings.noiseGateDb;
 		const toPercent = (value: number) =>
 			`${Math.min(Math.max((value - METER_FLOOR_DB) / -METER_FLOOR_DB, 0), 1) * 100}%`;
-		this.levelFillEl.style.setProperty("--ct-level", toPercent(db));
+		this.levelFillEl.setCssProps({ "--ct-level": toPercent(db) });
 		this.levelFillEl.toggleClass("is-gated", db < gate);
-		this.levelGateEl.style.setProperty("--ct-gate", toPercent(gate));
+		this.levelGateEl.setCssProps({ "--ct-gate": toPercent(gate) });
 	}
 
 	private renderRunning() {
