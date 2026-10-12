@@ -1,6 +1,8 @@
 # obsidian-chromatic-tuner
 
-A chromatic tuner for Obsidian, with instrument modes and microphone input selection.
+Tune your instrument without leaving Obsidian. Pick guitar, bass, tenor banjo, mandolin, violin or cello and the tuner shows which string you're playing and how far off it is. If a string is badly out, tap it to lock on. Chromatic mode tunes any note.
+
+You choose which microphone it listens on, and all audio stays on your device.
 
 ## Features
 

@@ -1,7 +1,7 @@
 {
 	"name": "chromatic-tuner",
 	"version": "1.0.1",
-	"description": "A chromatic and instrument tuner (guitar, bass, tenor banjo, mandolin, violin, cello) with microphone input selection.",
+	"description": "Tune guitar, bass, tenor banjo, mandolin, violin or cello string by string, or any note in chromatic mode. Choose which microphone to use; audio never leaves your device.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
